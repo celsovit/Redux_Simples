@@ -1,6 +1,15 @@
 # Conhecendo Redux
 
-- Criação do projeto
+Embora a simplicidade deste projeto não justifique inicialmente o uso de Redux, dado que todo o controle de estado pode ser facilmente obtido com o uso de `useState`, nosso objetivo é utilizá-lo para demonstrar como implementar e entender o uso do [Redux](https://react-redux.js.org/) para o controle de estado em uma aplicação React.
+
+## Resultado no navegador
+
+![Tela da aplicação no navegador](./images/tela_app.png)
+
+### Criação do projeto
+
+No terminal de comandos execute os passos abaixo:
+
 ```bash
 
 # inicia um novo projeto
@@ -13,3 +22,8 @@ cd redux-simples
 npm install redux@^4.0.5 react-redux@^7.2.0
 
 ```
+
+### Estágio 1
+
+Nesta primeira etapa, no desenvolvimento sem Redux, utilizamos o estado local _(useState)_ do componente App para compartilhar valores entre os componentes filhos, como [Media](./src/components/Media.jsx), [Soma](./src/components/Soma.jsx), [Sorteio](./src/components/Sorteio.jsx) e [Intervalo](./src/components/Intervalo.jsx). Isso foi alcançado através de [comunicação direta](https://douglasabnovato.medium.com/comunica%C3%A7%C3%A3o-entre-componentes-em-reactjs-27a89c38f33a), onde os valores e as funções de mudança de estado foram passados como props para os componentes filho, como o Intervalo. Essa abordagem permitiu que os estados fossem atualizados indiretamente a partir de componentes de Input na interface do navegador.
+
