@@ -1,7 +1,7 @@
 import React from 'react'
 
-import Card from './Card'
-import './Intervalo.css'
+import Card from '../Card'
+import '../Intervalo.css'
 
 export default function Intervalo(props) {
 

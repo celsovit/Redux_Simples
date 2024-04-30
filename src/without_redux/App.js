@@ -5,7 +5,7 @@ import Media from './components/without_redux/Media';
 import Soma from './components/without_redux/Soma';
 import Sorteio from './components/without_redux/Sorteio';
 
-import './App.css';
+import '../App.css';
 
 
 function App() {

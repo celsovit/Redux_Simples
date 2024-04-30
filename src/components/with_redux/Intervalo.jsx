@@ -1,10 +1,10 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import Card from './Card'
+import Card from '../Card'
 import { alterarNumeroMinimo, alterarNumeroMaximo } from '../../store/actions/numerosAction'
 
-import './Intervalo.css'
+import '../Intervalo.css'
 
 function Intervalo(props) {
 
@@ -57,6 +57,34 @@ function mapDispatchToProps(dispatch) {
         }
     }
 }
+
+/* 
+    Outras formas de criar a função mapDispatchToProps
+*/
+
+// function mapDispatchToProps_2(dispatch) {
+//     return {
+//         alterarMinimo: novoNumero => dispatch(alterarNumeroMinimo(novoNumero)),
+//         alterarMaximo: novoNumero => dispatch(alterarNumeroMaximo(novoNumero))
+//     }
+// }
+
+// function mapDispatchToProps_3(dispatch) {
+//     return {
+//         alterarMinimo: function(novoNumero) {
+//             dispatch(alterarNumeroMinimo(novoNumero))
+//         },
+//         alterarMaximo: function(novoNumero) {
+//             dispatch(alterarNumeroMaximo(novoNumero))
+//         }
+//     }
+// }
+
+// const mapDispatchToProps_4 = dispatch => ({
+//         alterarMinimo: novoNumero => dispatch(alterarNumeroMinimo(novoNumero)),
+//         alterarMaximo: novoNumero => dispatch(alterarNumeroMaximo(novoNumero))
+// })
+
 
 export default connect(
     mapStateToProps,

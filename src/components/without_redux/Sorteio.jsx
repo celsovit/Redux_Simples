@@ -1,6 +1,6 @@
 import React from 'react'
 
-import Card from './Card'
+import Card from '../Card'
 
 const numeroAleatorio = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min
 
