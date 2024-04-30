@@ -163,10 +163,10 @@ No terminal de comandos execute os passos abaixo:
 $ npx create-react-app redux-simples
 
 # entra no diretório do projeto
-cd redux-simples
+$ cd redux-simples
 
 # instala dependências Redux
-npm install redux@^4.0.5 react-redux@^7.2.0
+$ npm install redux@^4.0.5 react-redux@^7.2.0
 
 ```
 
