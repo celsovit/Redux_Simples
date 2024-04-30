@@ -20,6 +20,133 @@ Fazendo uso do Redux todos esses estados ficam armazenados em uma árvore de obj
     -  Cada dado da store deve ter o seu próprio reducer. Ele é encarregado de lidar com todas as ações e especificam como o estado da aplicação irá mudar de acordo com a action que foi enviada para o store.
 
 
+Vejamos a seguir um exemplo de como isso funciona.
+
+### Temos um componente que precisa exibir e atualizar valores de estado na tela:
+
+```javascript
+    import React from 'react'
+    import { connect } from 'react-redux'
+
+    function MeuComponente(props) {
+        const { variavelEstado1, variavelEstadoN } = props
+
+        return (
+            <div>
+                <input type="number" 
+                    value={ variavelEstado1 }
+                    onChange={ e => props.alteracao1(+e.target.value) }
+                />
+            </div>
+        )
+    }
+
+    // mapeia state para o objeto props
+    function mapStateToProps(state) {
+        const result = { 
+            variavelEstado1: state.numeros.variavelEstado1,
+            variavelEstado2: state.numeros.variavelEstadoN,
+        }
+
+        return result
+    }
+
+    // mapeia alteracao1, alteracaoN para o objeto props
+    function mapDispatchToProps(dispatch) {
+        const result = {
+            alteracao1(novoNumero) {
+                dispatch( alterarVariavelEstado1(novoNumero) )
+            },
+            alteracaoN(novoNumero) {
+                dispatch( alterarVariavelEstadoN(novoNumero) )
+            }
+        }
+    }
+
+    // passa o objeto props para MeuComponente e exporta-o
+    export default connect(
+        mapStateToProps, 
+        mapDispatchToProps
+    )(MeuComponente)
+```
+
+A função connect é um [Decorator](https://blog.lsantos.dev/javascript-decorators/) _(design pattern)_ e decora a função do Componente _(MeuComponente)_ de modo que esta receba os valores de estado e as respectivas funções de mudança de estado.
+
+
+### Temos a configuração dos _reducers_ e a criação do _Redux Store_
+
+```javascript
+    import { legacy_createStore as createStore, combineReducers } from 'redux'
+    import meuReducer from './reducers/meuReducer'
+
+    const reducers = combineReducers({
+        numeros: meuReducer,
+    })
+
+    export default function storeConfig() {
+        return createStore(reducers)
+    }
+```
+
+Observe que está sendo exportada a função _storeConfig_ que é chamada no _index.js_ da raiz do projeto a fim de criar a _Redux Store_ que será compartilhada com a árvore de componentes da aplicação. Neste arquivo também estão sendo definidos os _n reducers_ responsáveis por manter os diferentes estados da aplicação.
+
+Veja a seguir a codificação de `meuReducer`:
+
+```javascript
+
+    // valores iniciais de state
+    const initialState = {
+        variavelEstado1: 10,
+        variavelEstadoN: 100
+    }
+
+    export default function numeros(state = initialState, action) {
+
+        switch( action.type ) {
+
+            // se for a action VAR1_ALTERADA
+            case 'VAR1_ALTERADA':
+                return { ...state, variavelEstado1: action.payload }
+            
+            // se for a action VARN_ALTERADA
+            case 'VARN_ALTERADA':
+                return { ...state, variavelEstadoN: action.payload }
+            
+            // senão devolve state original
+            default:
+                return state
+
+        }
+
+    }
+
+```
+
+Quando a aplicação é carregada os _reducers_ são executados para iniciar o _state_ e com isso os valores de _initialState_ são atribuídos. A fim de atualizar os valores de _state_, são definidas as _actions_ que uma vez acionadas, executam também os _reducers_ passando o nome da _action_ em execução.
+
+Veja a seguir o código das funções _Action Creator_ responsáveis por criar as actions:
+
+```javascript
+
+    export function alterarVariavelEstado1(novoNumero) {
+        return {
+            type: 'VAR1_ALTERADA',  // action VAR1_ALTERADA
+            payload: novoNumero
+        }
+    }
+
+    export function alterarVariavelEstadoN(novoNumero) {
+        return {
+            type: 'VARN_ALTERADA',  // action VARN_ALTERADA
+            payload: novoNumero
+        }
+    }
+
+```
+
+> __Nota:__ Veja mais acima no componente `MeuComponente`, função _mapDispatchToProps_,
+> como estas _Action Creators_ são invocadas.
+
 ## A aplicação no navegador
 
 #### Aplicação desenvolvida durante o curso [React + Redux :: Leonardo Leitão](https://www.udemy.com/course/react-redux-pt)
@@ -52,85 +179,23 @@ Nesta primeira etapa, no desenvolvimento sem Redux, utilizamos o estado local _(
 
 ## Segunda Implementação
 
-Nesta etapa estamos substituindo o controle baseado em estado local _(useState)_ no componente [App](./src/without_redux/App.js) pela [Redux Store](https://redux.js.org/tutorials/fundamentals/part-4-store), um armazenamento centralizado disponibilizado pelo Redux.
+Nesta etapa estamos substituindo o controle baseado em estado local _(useState)_ no componente [App](./src/without_redux/App.js) pela [Redux Store](https://redux.js.org/tutorials/fundamentals/part-4-store).
 
-Vejamos a seguir, o que muda:
+As alterações seguem basicamente o que foi explicado no início deste README, ou seja:
 
-#### Arquivo Index.js
+- No [index.js](./src/index.js) vamos recuperar a Redux Store e compartilha-la com a árvore de componentes no [App.js](./src/App.js) através do componente [Provider](https://react-redux.js.org/api/provider) do React-Redux.
 
-No [index.js](./src/index.js) vamos recuperar a Redux Store e compartilha-la com a árvore de componentes através do componente [Provider](https://react-redux.js.org/api/provider) do React-Redux.
+- Então o arquivo [storeConfig.js](./src/store/storeConfig.js) é responsável por configurar os diferentes reducers e retornar a Redux Store criada.
 
-#### Arquivo storeConfig.js
+- Finalmente nos componentes [Intervalo.jsx](./src/components/with_redux/Intervalo.jsx), [Media.jsx](./src/components/with_redux/Media.jsx), [Soma.jsx](./src/components/with_redux/Soma.jsx) e [Sorteio.jsx](./src/components/with_redux/Sorteio.jsx) são definidas as funções `mapStateToProps` e `mapDispatchToProps` responsáveis por disponibilizar ao componente as variáveis estado bem como as funções de alteração de estados se necessário.
 
-O arquivo [storeConfig.js](./src/store/storeConfig.js) é responsável por configurar os diferentes reducers e retornar a Redux Store criada.
 
-### Acesso aos estados da Store
 
-Para que componentes como [Media](./src/components/without_redux/Media.jsx), [Soma](./src/components/without_redux/Soma.jsx), [Sorteio](./src/components/without_redux/Sorteio.jsx) e [Intervalo](./src/components/without_redux/Intervalo.jsx) possam ter acesso às variáveis de estado, estes precisam exportar a função [connect](https://react-redux.js.org/api/connect) que recebe como parâmetro uma função que mapeia o estado _(state)_ para uma _props_. Com isso a função do componente poderá receber o estado como um parâmetro _props_, como exemplificado abaixo:
 
-```javascript
-import React from 'react'
-import { connect } from 'react-redux'
 
-function MeuComponente(props) {
-    const { variavelEstado1, variavelEstadoN } = props
 
-    return <div>Componente</div>
-}
 
-function mapStateToProps(state) {
-    const result = { 
-        variavelEstado1: state.variavelEstado1,
-        variavelEstado2: state.variavelEstadoN,
-    }
 
-    return result
-}
-
-export default connect(mapStateToProps)(MeuComponente)
-```
-
-A função connect é um [Decorator](https://blog.lsantos.dev/javascript-decorators/) _(design pattern)_ e usa a função _mapStateToProps_ para preparar o objeto _props_ que será passado para a função que define o componente React.
-
-### Atualização de estado na Store
-
-Da mesma forma que existe uma função _(mapStateToProps)_ que mapeia o estado _(state)_ para propriedades _(props)_ do componente, é necessário também uma função _(mapDispatchToProps)_ que passa funções que são chamadas para atualizar os estados da Store, ou seja, a função que define o componente recebe em _props_ tanto os estados quanto as funções capazes de alterar tais estados.
-
-Veja a seguir uma atualização do código exibido anteriormente, agora podendo também atualizar as variáveis de estado:
-
-```javascript
-// imports
-
-function MeuComponente(props) {
-    const { variavelEstado1, variavelEstadoN } = props
-
-    return (
-        <div>
-            <input type="number" 
-                   value={ variavelEstado1 }
-                   onChange={ e => props.alteracao1(+e.target.value) }
-            />
-        </div>
-    )
-}
-
-function mapStateToProps(state) {
-    // mesmo conteúdo anterior
-}
-
-function mapDispatchToProps(dispatch) {
-    const result = {
-        alteracao1(novoNumero) {
-            dispatch( alterarVariavelEstado1(novoNumero) )
-        },
-        alteracaoN(novoNumero) {
-            dispatch( alterarVariavelEstadoN(novoNumero) )
-        }
-    }
-}
-```
-
-Neste projeto o componente [Intervalo](./src/components/without_redux/Intervalo.jsx) possui dois elementos Input que precisam alterar as variáveis de estado _min_ e _max_. 
 
 ## Dica VSCode
 Ao utilizar a extensão `Material Icon Theme` _(Philipp Kief)_, junto ao nome da extensão tem uma engrenagem que ao ser clicada dá acesso a um menu que oferece a opção `Configurações de Extensão`. 
