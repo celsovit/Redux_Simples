@@ -174,7 +174,7 @@ npm install redux@^4.0.5 react-redux@^7.2.0
 
 Nesta primeira etapa, no desenvolvimento sem Redux, utilizamos o estado local _(useState)_ do componente App para compartilhar valores entre os componentes filhos, como [Media](./src/components/without_redux/Media.jsx), [Soma](./src/components/without_redux/Soma.jsx), [Sorteio](./src/components/without_redux/Sorteio.jsx) e [Intervalo](./src/components/without_redux/Intervalo.jsx). Isso foi alcançado através de [comunicação direta](https://douglasabnovato.medium.com/comunica%C3%A7%C3%A3o-entre-componentes-em-reactjs-27a89c38f33a), onde os valores e as funções de mudança de estado foram passados como props para os componentes filho, como o Intervalo. Essa abordagem permitiu que os estados fossem atualizados indiretamente a partir de componentes de Input na interface do navegador.
 
-> Os arquivos [App.js](./src/without_redux/App.js), [App.css](./src/without_redux/App.css), [index.js](./src/without_redux/index.js) e [index.css](./src/without_redux/index.css) deste estágio estão na página `without_redux`.
+> Os arquivos [App.js](./src/without_redux/App.js) e [index.js](./src/without_redux/index.js) deste estágio estão na página `without_redux`.
 
 
 ## Segunda Implementação
@@ -187,15 +187,9 @@ As alterações seguem basicamente o que foi explicado no início deste README, 
 
 - Então o arquivo [storeConfig.js](./src/store/storeConfig.js) é responsável por configurar os diferentes reducers e retornar a Redux Store criada.
 
-- Finalmente nos componentes [Intervalo.jsx](./src/components/with_redux/Intervalo.jsx), [Media.jsx](./src/components/with_redux/Media.jsx), [Soma.jsx](./src/components/with_redux/Soma.jsx) e [Sorteio.jsx](./src/components/with_redux/Sorteio.jsx) são definidas as funções `mapStateToProps` e `mapDispatchToProps` responsáveis por disponibilizar ao componente as variáveis estado bem como as funções de alteração de estados se necessário.
+- Finalmente nos componentes [Intervalo.jsx](./src/components/with_redux/Intervalo.jsx), [Media.jsx](./src/components/with_redux/Media.jsx), [Soma.jsx](./src/components/with_redux/Soma.jsx) e [Sorteio.jsx](./src/components/with_redux/Sorteio.jsx) são definidas as funções `mapStateToProps` e `mapDispatchToProps` responsáveis por disponibilizar ao componente as variáveis estado bem como as funções de alteração de estado.
 
-
-
-
-
-
-
-
+Temos ainda as definições dos reducers no arquivo [numerosReducer.js](./src/store/reducers/numerosReducer.js) e das actions no arquivo [numerosAction.js](./src/store/actions/numerosAction.js).
 
 ## Dica VSCode
 Ao utilizar a extensão `Material Icon Theme` _(Philipp Kief)_, junto ao nome da extensão tem uma engrenagem que ao ser clicada dá acesso a um menu que oferece a opção `Configurações de Extensão`. 
