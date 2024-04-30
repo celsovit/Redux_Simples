@@ -13,15 +13,15 @@ const store = storeConfig()
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
+  
+  <React.StrictMode>
+    <Provider store={ store }> 
+      {/* Provider: componente faz a integração do React com Redux */}
+    
+        <App />
 
-  <Provider store={ store }> 
-    {/* Provider: componente faz a integração do React com Redux */}
-
-    <React.StrictMode>
-      <App />
-    </React.StrictMode>
-
-  </Provider>
+    </Provider>
+  </React.StrictMode>
   
 );
 

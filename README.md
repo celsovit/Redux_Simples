@@ -210,3 +210,10 @@ Para este projeto fiz a seguinte configuração:
     },
     ...
 ```
+
+## Saiba Mais:
+- [Redux-Toolkit: Novo, Melhor, Mais Elegante (recomendado pela documentação Redux)](https://medium.com/geekieeducacao/gerenciamento-de-estado-no-react-do-redux-ao-zustand-3efceab86dfa)
+
+- [How To Integrate Redux with React Based Application](https://semaphoreci.com/blog/redux-react)
+
+- [How to use Redux in Next.js](https://blog.logrocket.com/use-redux-next-js/)
