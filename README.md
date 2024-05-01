@@ -217,3 +217,5 @@ Para este projeto fiz a seguinte configuração:
 - [How To Integrate Redux with React Based Application](https://semaphoreci.com/blog/redux-react)
 
 - [How to use Redux in Next.js](https://blog.logrocket.com/use-redux-next-js/)
+
+- [How and When to use BindActionCreators](https://medium.com/@kristenleach24/how-and-when-to-use-bindactioncreators-afe1f2d5f819)
